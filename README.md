@@ -10,3 +10,7 @@ El proyecto fue creado utilizando Laravel, un framework de desarrollo de aplicac
 composer create-project --prefer-dist laravel/laravel app
 ```
 
+Para poder crear los modelos con sus migraciones correspondientes se uso el siguiente comando:
+```bash
+php artisan make:model Role -m
+```
