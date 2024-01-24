@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\VistaSuperAdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('', [AuthController::class, 'login'])->name('loginauth');
+
+Route::prefix('superadmin')->middleware('superadmin')->group(function () {
+    Route::get('dashboard', [VistaSuperAdminController::class, 'index'])->name('superadmin.dashboard');
+    Route::get('companies', [VistaSuperAdminController::class, 'companies'])->name('superadmin.companies');
+    Route::post('companies_create', [VistaSuperAdminController::class, 'companies_create'])->name('superadmin.companies_create');
+    Route::get('access', [VistaSuperAdminController::class, 'access'])->name('superadmin.access');
 });
