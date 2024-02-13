@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 use App\Models\User;
+use App\Models\Employee;
+use App\Models\Company;
 
 class AuthController extends Controller
 {
@@ -12,54 +15,55 @@ class AuthController extends Controller
     {
         return view('Auth.login');
     }
+
     public function login(Request $request)
     {
-        // Validar los datos del formulario
-        $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string',
-            'tipo_login' => 'required|in:empresa,personal',
-        ]);
+        $route = $this->authenticate($request->tipo_login, $request->email, $request->password);
 
-        // Intentar autenticar al usuario
-        $credentials = $request->only('email', 'password');
-
-        // Verificar el tipo de inicio de sesión
-        if ($request->tipo_login == 'personal') {
-            // Lógica para inicio de sesión de empresa
-            if (Auth::attempt($credentials)) {
-                // Autenticación exitosa
-                $user = Auth::user();
-
-                // Verificar el rol del usuario
-                switch ($user->id_role) {
-                    case 1: // SuperAdministrador
-                        return redirect()->route('superadmin.dashboard');
-                    case 2: // Administrador
-                        return redirect()->route('administrador.dashboard');
-                    case 3: // Personal
-                        return redirect()->route('personal.dashboard');
-                    case 4: // Empleado
-                        return redirect()->route('empleado.dashboard');
-                    default:
-                        return redirect()->route('dashboard');
-                }
-            }
-        } else {
-            // Lógica para inicio de sesión personal
-            if (Auth::attempt($credentials)) {
-                // Autenticación exitosa
-                $user = Auth::user();
-                dd('Inicio de sesión personal');
-                return redirect()->intended('dashboard');
-            }
+        if ($route === 'login') {
+            // Autenticación fallida, agregar un mensaje de error a la sesión
+            session()->flash('error', 'La autenticación falló. Por favor, verifica tus credenciales e intenta de nuevo.');
         }
 
-        // Autenticación fallida, redirige de nuevo al formulario de login
-        return back()->withErrors([
-            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
-        ]);
+        return redirect()->route($route);
     }
+
+    private function authenticate($tipo_login, $email, $password)
+    {
+        if ($tipo_login === 'empresa') {
+            $company = Company::where('name', $email)->first();
+            $employee = Employee::where('code', 'LIKE', "%-{$email}")->first();
+            if ($employee) {
+                $user = $employee->user;
+                $rol = $employee->role;
+                $company = $employee->company;
+
+                if (Auth::attempt(['email' => $user->email, 'password' => $password])) {
+                    // Autenticación exitosa
+
+                    // Guardar el rol y la compañía en la sesión
+                    session(['rol' => $rol, 'company' => $company]);
+
+                    // Redirigir a 'gerencia.show'
+                    return 'gerencia.show';
+                } else {
+                    // Autenticación fallida, agregar un mensaje de error a la sesión
+                    session()->flash('error', 'La autenticación falló. Por favor, verifica tus credenciales e intenta de nuevo.');
+
+                    // Redirigir a 'login'
+                    return 'login';
+                }
+            }
+        }
+        if ($tipo_login === 'personal') {
+            // Aquí deberías implementar la lógica de autenticación para 'personal'
+            // y devolver el nombre de la ruta a la que quieres redirigir al usuario.
+        }
+
+        // Autenticación fallida, redirigir a 'login'
+        return 'login';
+    }
+
     public function logout()
     {
         Auth::logout();

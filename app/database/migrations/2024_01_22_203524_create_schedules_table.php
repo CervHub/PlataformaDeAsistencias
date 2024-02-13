@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->json('data')->nullable(); // Campo JSON
+            $table->string('status')->default('active');
             $table->timestamps();
             $table->foreignId('id_company')->constrained('companies')->onDelete('cascade');
         });

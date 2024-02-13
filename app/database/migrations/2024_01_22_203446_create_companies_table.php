@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('ruc')->unique();
+            $table->string('password');
             $table->string('description')->nullable();
             $table->json('data')->nullable(); // Campo JSON
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }

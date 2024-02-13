@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('work_exit_time')->nullable();
             $table->string('lunch_exit_time')->nullable();
             $table->string('lunch_return_time')->nullable();
+            $table->string('status')->default('active');
             $table->foreignId('id_employee')->constrained('employees')->onDelete('cascade');
             $table->timestamps();
         });

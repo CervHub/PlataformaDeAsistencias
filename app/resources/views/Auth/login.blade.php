@@ -10,7 +10,8 @@
     <link rel="shortcut icon" href="./img/svg/logo.svg" type="image/x-icon">
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="{{ asset('template/css/style.min.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
     <style>
         input[type="radio"] {
             margin-right: 1rem;
@@ -41,6 +42,7 @@
                             onclick="cambiarCampo()" required checked>
                         <span class="form-checkbox-label">Empresa</span>
                     </label>
+
                     <label class="form-checkbox-wrapper">
                         <input class="form-checkbox" type="radio" name="tipo_login" value="personal"
                             onclick="cambiarCampo()" required>
@@ -95,6 +97,34 @@
             }
         }
     </script>
+    @if (session('error'))
+        <script>
+            iziToast.error({
+                title: 'Error',
+                position: 'center',
+                message: '{{ session('error') }}',
+                class: 'custom-toast', // Agregar una clase personalizada
+                timeout: 50000, // Tiempo de duración del mensaje
+                progressBar: true
+            });
+        </script>
+
+        <style>
+            .custom-toast {
+                border-radius: 15px !important;
+            }
+
+            .iziToast.iziToast-theme-light:after {
+                box-shadow: none !important;
+            }
+
+            .custom-toast .iziToast-progressbar {
+                left: 1% !important; // Mover la barra de progreso 15px desde la izquierda
+                right: 0 !important; // Mover la barra de progreso a la derecha
+                width: 80% !important; // Ajustar el ancho de la barra de progreso al 80%
+            }
+        </style>
+    @endif
 </body>
 
 </html>

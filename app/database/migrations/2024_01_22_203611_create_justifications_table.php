@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->json('data')->nullable(); // Campo JSON
             $table->foreignId('id_employee')->constrained('employees')->onDelete('cascade');
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }
