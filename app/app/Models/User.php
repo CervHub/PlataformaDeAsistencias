@@ -19,9 +19,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'doi',
         'name',
         'email',
         'password',
+        'birthdate',
     ];
 
     /**
@@ -47,5 +49,10 @@ class User extends Authenticatable
     public function employees()
     {
         return $this->hasMany(Employee::class, 'id_user', 'id');
+    }
+
+    public function employee($id)
+    {
+        return $this->employees()->where('id', $id)->first();
     }
 }

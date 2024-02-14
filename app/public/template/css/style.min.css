@@ -846,6 +846,13 @@ body {
     height: 24px;
 }
 
+.calendar {
+    background-image: url(../img/svg/Bulk/Calendar.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+
 .arrow-down,
 .document,
 .folder {

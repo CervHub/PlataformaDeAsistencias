@@ -31,18 +31,17 @@ class AuthController extends Controller
     private function authenticate($tipo_login, $email, $password)
     {
         if ($tipo_login === 'empresa') {
-            $company = Company::where('name', $email)->first();
             $employee = Employee::where('code', 'LIKE', "%-{$email}")->first();
             if ($employee) {
                 $user = $employee->user;
                 $rol = $employee->role;
-                $company = $employee->company;
+                $company_id = $employee->id_company;
 
                 if (Auth::attempt(['email' => $user->email, 'password' => $password])) {
                     // Autenticación exitosa
 
                     // Guardar el rol y la compañía en la sesión
-                    session(['rol' => $rol, 'company' => $company]);
+                    session(['rol_id' => $rol->id, 'company_id' => $company_id, 'employee_id' => $employee->id]);
 
                     // Redirigir a 'gerencia.show'
                     return 'gerencia.show';
@@ -68,6 +67,6 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect('login');
+        return redirect()->route('login');
     }
 }

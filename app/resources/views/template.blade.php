@@ -13,7 +13,8 @@
     <!-- Custom styles -->
     <link rel="stylesheet" href="{{ asset('template/css/style.min.css') }}">
     <link href="{{ asset('template/DataTables/datatables.min.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{ asset('mystyles.css') }}">
+    @yield('styles')
 </head>
 
 <body>
@@ -30,13 +31,16 @@
                 <a href="##" class="sidebar-user">
                     <span class="sidebar-user-img">
                         <picture>
-                            <source srcset="./img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                                src="./img/avatar/avatar-illustrated-01.png" alt="User name">
+                            <source srcset="{{ asset('template/img/avatar/avatar-illustrated-01.webp') }}"
+                                type="image/webp"><img
+                                src="{{ asset('template/img/avatar/avatar-illustrated-01.png') }}" alt="User name">
                         </picture>
                     </span>
                     <div class="sidebar-user-info">
-                        <span class="sidebar-user__title">Nafisa Sh.</span>
-                        <span class="sidebar-user__subtitle">Support manager</span>
+                        <span
+                            class="sidebar-user__title">{{ Auth::user()->employee(Session::get('employee_id'))->name }}</span>
+                        <span
+                            class="sidebar-user__subtitle">{{ Auth::user()->employee(Session::get('employee_id'))->position }}</span>
                     </div>
                 </a>
             </div>
@@ -133,8 +137,10 @@
                                 <span class="sr-only">My profile</span>
                                 <span class="nav-user-img">
                                     <picture>
-                                        <source srcset="./img/avatar/avatar-illustrated-02.webp" type="image/webp">
-                                        <img src="./img/avatar/avatar-illustrated-02.png" alt="User name">
+                                        <source srcset="{{ asset('template/img/avatar/avatar-illustrated-02.webp') }}"
+                                            type="image/webp">
+                                        <img src="{{ asset('template/img/avatar/avatar-illustrated-02.png') }}"
+                                            alt="User name">
                                     </picture>
                                 </span>
                             </button>
@@ -161,7 +167,7 @@
                                         </svg>
                                         <span>Account settings</span>
                                     </a></li>
-                                <li><a class="danger" href="##">
+                                <li><a class="danger" href="{{ route('logout') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -200,6 +206,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
+
     <script src="{{ asset('template/DataTables/datatables.min.js') }}"></script>
     <script src="{{ asset('Scripts/utils.js') }}"></script>
     @yield('scripts')

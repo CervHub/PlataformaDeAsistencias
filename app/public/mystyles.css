@@ -1,0 +1,82 @@
+:root {
+    --pastel-green: #7D4374;
+    --pastel-blue: #7D4374;
+    --pastel-orange: #7D4374;
+    --pastel-yellow: #7D4374;
+    --pastel-purple: #7D4374;
+    --border-radius: 15px;
+    --border-radius-sm: 10px;
+    --primary-color: #303166;
+    --orange-cerv: #f2980d;
+}
+
+input {
+    border: 1px solid lightgray !important;
+    border-radius: var(--border-radius-sm) !important;
+}
+
+.modal-content {
+    border-radius: var(--border-radius) !important;
+}
+
+input:focus {
+    border: none !important;
+}
+
+form-control:focus {
+    box-shadow: none !important;
+}
+
+.dt-button {
+    border-radius: var(--border-radius) !important;
+}
+
+.btn {
+    border-radius: var(--border-radius) !important;
+}
+
+.dt-button {
+    border: none !important;
+    color: white !important;
+}
+
+.dt-button:nth-child(1) {
+    background-color: var(--pastel-green) !important; // Verde pastel
+}
+
+.dt-button:nth-child(2) {
+    background-color: var(--pastel-blue) !important; // Azul pastel
+}
+
+.dt-button:nth-child(3) {
+    background-color: var(--pastel-orange) !important; // Naranja pastel
+}
+
+.dt-button:nth-child(4) {
+    background-color: var(--pastel-yellow) !important; // Amarillo pastel
+}
+
+.dt-button:nth-child(5) {
+    background-color: var(--pastel-purple) !important; // Morado pastel
+}
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.sidebar {
+    background-color: var(--primary-color) !important;
+}
+
+table.dataTable {
+    background-color: white !important;
+    border-radius: var(--border-radius-sm) !important;
+}
+
+#example_filter {
+    margin-bottom: 1rem !important;
+}
+
+.btn-info {
+    background-color: var(--orange-cerv) !important;
+}

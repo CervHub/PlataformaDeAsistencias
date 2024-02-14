@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\View\GerenciaController;
 use App\Http\Controllers\View\TallerController;
 use App\Http\Controllers\View\AdministradorController;
+use App\Http\Controllers\View\HorarioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,7 @@ use App\Http\Controllers\View\AdministradorController;
 
 Route::get('', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('', [AuthController::class, 'login'])->name('loginauth');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::prefix('gerencia')->group(function () {
@@ -36,13 +38,6 @@ Route::middleware('auth')->group(function () {
 
         // Rutas para administradores
         Route::resource('administradores', AdministradorController::class);
-        // Las rutas predefinidas son:
-        // GET /gerencia/administradores (muestra la lista de administradores) -> administradores.index
-        // GET /gerencia/administradores/create (muestra el formulario de creación de administradores) -> administradores.create
-        // POST /gerencia/administradores (almacena un nuevo administrador) -> administradores.store
-        // GET /gerencia/administradores/{administrador} (muestra un administrador específico) -> administradores.show
-        // GET /gerencia/administradores/{administrador}/edit (muestra el formulario de edición de un administrador específico) -> administradores.edit
-        // PUT/PATCH /gerencia/administradores/{administrador} (actualiza un administrador específico) -> administradores.update
-        // DELETE /gerencia/administradores/{administrador} (elimina un administrador específico) -> administradores.destroy
+        Route::resource('horarios', HorarioController::class);
     });
 });
