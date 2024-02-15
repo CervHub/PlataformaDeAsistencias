@@ -23,24 +23,45 @@
                         aria-hidden="true"></span>Dashboard</a>
             </li>
         </ul>
-        <span class="system-menu__title">system</span>
+        <span class="system-menu__title">Gestión</span>
         <ul class="sidebar-body-menu">
             <li>
                 <a href="{{ route('talleres.index') }}" id="taller"><span class="icon office"
                         aria-hidden="true"></span>Talleres</a>
             </li>
-        </ul>
-        <ul class="sidebar-body-menu">
             <li>
                 <a href="{{ route('administradores.index') }}" id="administrador"><span class="icon access"
                         aria-hidden="true"></span>Administradores</a>
             </li>
+            <li>
+                <a href="{{ route('personal.index') }}" id="personal"><span class="icon working"
+                        aria-hidden="true"></span>Personal</a>
+            </li>
         </ul>
+        <span class="system-menu__title">Incidentes y Reportes</span>
         <ul class="sidebar-body-menu">
             <li>
-                <a href="{{ route('horarios.index') }}" id="horarios">
-                    <span class="icon calendar" aria-hidden="true"></span>Horarios
-                </a>
+                <a href="{{ route('incidentes.index') }}" id="incidente"><span class="icon incident"
+                        aria-hidden="true"></span>Incidentes</a>
+            </li>
+            <li>
+                <a href="{{ route('reportes.index') }}" id="reporte"><span class="icon report"
+                        aria-hidden="true"></span>Reportes</a>
+            </li>
+        </ul>
+        <span class="system-menu__title">Permisos y Horarios</span>
+        <ul class="sidebar-body-menu">
+            <li>
+                <a href="{{ route('permisos.index') }}" id="permiso"><span class="icon permission"
+                        aria-hidden="true"></span>Permisos</a>
+            </li>
+            <li>
+                <a href="{{ route('horarios.index') }}" id="horario"><span class="icon calendar"
+                        aria-hidden="true"></span>Horario</a>
+            </li>
+            <li>
+                <a href="{{ route('jornadas.index') }}" id="jornada"><span class="icon schedule"
+                        aria-hidden="true"></span>Jornadas</a>
             </li>
         </ul>
     </div>

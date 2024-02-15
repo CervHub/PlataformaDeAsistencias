@@ -2,10 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\View\GerenciaController;
+use App\Http\Controllers\View\Gerente\PersonalController;
+use App\Http\Controllers\View\Gerente\GerenciaController;
 use App\Http\Controllers\View\TallerController;
 use App\Http\Controllers\View\AdministradorController;
-use App\Http\Controllers\View\HorarioController;
+use App\Http\Controllers\View\Gerente\HorarioController;
+use App\Http\Controllers\View\Root\RootController;
+use App\Http\Controllers\View\Root\CompanyController;
+use App\Http\Controllers\View\Gerente\PermisoController;
+use App\Http\Controllers\View\Gerente\IncidenteController;
+use App\Http\Controllers\View\Gerente\ReporteController;
+use App\Http\Controllers\View\Gerente\JornadasController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,20 +31,18 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::prefix('gerencia')->group(function () {
         Route::get('', [GerenciaController::class, 'show'])->name('gerencia.show');
-
-        // Rutas para talleres
         Route::resource('talleres', TallerController::class);
-        // Las rutas predefinidas son:
-        // GET /gerencia/talleres (muestra la lista de talleres) -> talleres.index
-        // GET /gerencia/talleres/create (muestra el formulario de creación de talleres) -> talleres.create
-        // POST /gerencia/talleres (almacena un nuevo taller) -> talleres.store
-        // GET /gerencia/talleres/{taller} (muestra un taller específico) -> talleres.show
-        // GET /gerencia/talleres/{taller}/edit (muestra el formulario de edición de un taller específico) -> talleres.edit
-        // PUT/PATCH /gerencia/talleres/{taller} (actualiza un taller específico) -> talleres.update
-        // DELETE /gerencia/talleres/{taller} (elimina un taller específico) -> talleres.destroy
-
-        // Rutas para administradores
         Route::resource('administradores', AdministradorController::class);
+        Route::resource('personal', PersonalController::class);
+        Route::resource('permisos', PermisoController::class);
+        Route::resource('incidentes', IncidenteController::class);
+        Route::resource('reportes', ReporteController::class);
         Route::resource('horarios', HorarioController::class);
+        Route::resource('jornadas', JornadasController::class);
+    });
+
+    Route::prefix('root')->group(function () {
+        Route::resource('root', RootController::class);
+        Route::resource('company', CompanyController::class);
     });
 });

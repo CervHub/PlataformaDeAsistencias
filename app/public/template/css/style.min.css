@@ -846,6 +846,41 @@ body {
     height: 24px;
 }
 
+.working {
+    background-image: url(../img/svg/Bulk/working.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+
+.schedule {
+    background-image: url(../img/svg/Bulk/schedule.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+
+.incident {
+    background-image: url(../img/svg/Bulk/incident.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+
+.report {
+    background-image: url(../img/svg/Bulk/report.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+
+.permission {
+    background-image: url(../img/svg/Bulk/permission.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+
 .calendar {
     background-image: url(../img/svg/Bulk/Calendar.svg);
     background-size: cover;

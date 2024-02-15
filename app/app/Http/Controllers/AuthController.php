@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Employee;
 use App\Models\Company;
+use App\Models\Role;
 
 class AuthController extends Controller
 {
@@ -53,13 +54,36 @@ class AuthController extends Controller
                     return 'login';
                 }
             }
-        }
-        if ($tipo_login === 'personal') {
-            // Aquí deberías implementar la lógica de autenticación para 'personal'
-            // y devolver el nombre de la ruta a la que quieres redirigir al usuario.
-        }
+        } else if ($tipo_login === 'personal') {
+            $employee = Employee::where('email', $email)->first();
 
-        // Autenticación fallida, redirigir a 'login'
+            if (!$employee) {
+                // El empleado no existe
+                return redirect()->back()->withErrors(['error' => 'El empleado no existe.']);
+            }
+
+            $credentials = ['email' => $employee->user->email, 'password' => $password];
+
+            if (!Auth::attempt($credentials)) {
+                // Autenticación fallida
+                return redirect()->back()->withErrors(['error' => 'Las credenciales proporcionadas no son válidas.']);
+            }
+
+            $company_id = $employee->id_company;
+            $rol_id = $employee->id_role;
+            $employee_id = $employee->id;
+
+            $rootRoleId = Role::where('name', 'Root')->first()->id;
+            $adminRoleId = Role::where('name', 'Administrador')->first()->id;
+
+            if ($rol_id === $rootRoleId || $rol_id === $adminRoleId) {
+                session(['rol_id' => $rol_id, 'company_id' => $company_id, 'employee_id' => $employee_id]);
+                return ($rol_id === $rootRoleId ? 'root.index' : 'administrador.index');
+            }
+
+            // Usuario no autorizado
+            return redirect()->back()->withErrors(['error' => 'Usuario no autorizado.']);
+        }
         return 'login';
     }
 

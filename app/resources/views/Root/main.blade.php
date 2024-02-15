@@ -19,22 +19,17 @@
     <div class="sidebar-body">
         <ul class="sidebar-body-menu">
             <li>
-                <a href="{{ route('superadmin.dashboard') }}" id="dashboard"><span class="icon home"
+                <a href="{{ route('root.index') }}" id="dashboard"><span class="icon home"
                         aria-hidden="true"></span>Dashboard</a>
             </li>
         </ul>
         <span class="system-menu__title">system</span>
         <ul class="sidebar-body-menu">
             <li>
-                <a href="{{ route('superadmin.companies') }}" id="companies"><span class="icon office"
-                        aria-hidden="true"></span>Empresas</a>
+                <a href="{{ route('company.index') }}" id="company"><span class="icon office"
+                        aria-hidden="true"></span>Gerencias</a>
             </li>
         </ul>
-        <ul class="sidebar-body-menu">
-            <li>
-                <a href="{{ route('superadmin.access') }}" id="access"><span class="icon access"
-                        aria-hidden="true"></span>Acessos</a>
-            </li>
-        </ul>
+
     </div>
 @endsection

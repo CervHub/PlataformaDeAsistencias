@@ -20,14 +20,22 @@ class CompaniesTableSeeder extends Seeder
     {
         $companies = [
             [
+                'name' => 'Root',
+                'description' => 'Description 1',
+                'ruc' => '123456789',
+                'role' => '',
+            ],
+            [
                 'name' => 'Certus S.A.C.',
                 'description' => 'Description 1',
                 'ruc' => '20559312240',
+                'role' => 'Gerente',
             ],
             [
                 'name' => 'CERV',
                 'description' => 'Description 2',
                 'ruc' => '2070602356',
+                'role' => 'Gerente',
             ]
         ];
 

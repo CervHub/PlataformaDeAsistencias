@@ -4,14 +4,18 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Http\Controllers\Repository\UserModel; // Importa el controlador
+use App\Models\User;
+use App\Models\Employee;
+use App\Models\Company;
+use App\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
-    protected $userModel;
 
-    public function __construct(UserModel $userModel)
+    function formatCode($companyId, $rucNumber)
     {
-        $this->userModel = $userModel;
+        $formattedCompanyId = str_pad($companyId, 4, '0', STR_PAD_LEFT);
+        return $formattedCompanyId . '-' . $rucNumber;
     }
 
     /**
@@ -19,45 +23,31 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Datos para el SuperAdministrador
-        $superAdminData = [
-            'name' => 'Super Admin',
-            'email' => 'superadmin@cerv.com',
-            'doi' => '12345678',
-            'birthdate' => null,
-            'id_role' => '1',
-            'id_company' => 2,
-            'lastname' => 'Test Lastname',
-            'url_photo' => null,
-            'id_schedule' => null,
-        ];
-
-         // Datos para el SuperAdministrador
-        //  $superAdminData = [
-        //     'name' => 'Elfer',
-        //     'email' => 'elfer.arenas@cerv.com',
-        //     'doi' => '87654321',
-        //     'birthdate' => null,
-        //     'id_role' => '3',
-        //     'id_company' => 1,
-        //     'lastname' => 'Arenas',
-        //     'url_photo' => null,
-        //     'id_schedule' => null,
-        // ];
-
-        // Datos para el SuperAdministrador
-        // $superAdminData = [
-        //     'name' => 'Kassandra',
-        //     'email' => 'kassandra.reynoso@cerv.com',
-        //     'doi' => '123456789',
-        //     'birthdate' => null,
-        //     'id_role' => '3',
-        //     'id_company' => 2,
-        //     'lastname' => 'Reynoso',
-        //     'url_photo' => null,
-        //     'id_schedule' => null,
-        // ];
-        // Usa el método createUser del controlador para crear el SuperAdministrador
-        $this->userModel->create($superAdminData);
+        try {
+            $user = User::create([
+                'email' => 'admin@admin.com',
+                'doi' => '123456789',
+                'password' => bcrypt('admin'),
+                'status' => 'active',
+                'birthdate' => null
+            ]);
+            $code = $this->formatCode(Company::first()->id, '123456789');
+            $employee = Employee::create([
+                'email' => 'admin@admin.com',
+                'id_user' => $user->id,
+                'id_company' => Company::first()->id,
+                'id_role' => Role::where('name', 'Root')->first()->id,
+                'name' => 'Root',
+                'lastname' => 'Admin',
+                'data' => null,
+                'status' => 'active',
+                'url_photo' => null,
+                'code' => $code
+            ]);
+            error_log('User created: ' . $user->id);
+        } catch (\Throwable $th) {
+            //throw $th;
+            error_log('Error creating user: ' . $th->getMessage());
+        }
     }
 }

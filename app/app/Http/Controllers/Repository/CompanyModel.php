@@ -28,7 +28,7 @@ class CompanyModel extends Controller
                 $ruc = $data['ruc'];
                 $password = $data['ruc'];
                 $status = 'active';
-
+                $role = $data['role'];
                 $new_company = Company::create([
                     'name' => $name,
                     'description' => $description,
@@ -37,27 +37,29 @@ class CompanyModel extends Controller
                     'status' => $status
                 ]);
 
-                // Crear Usuario
-                $new_user = User::create([
-                    'email' => $ruc . '@' . $ruc . '.com',
-                    'doi' => $ruc,
-                    'password' => $password,
-                    'status' => $status,
-                    'birthdate' => null
-                ]);
+                if ($role) {
+                    // Crear Usuario
+                    $new_user = User::create([
+                        'email' => $ruc . '@' . $ruc . '.com',
+                        'doi' => $ruc,
+                        'password' => $password,
+                        'status' => $status,
+                        'birthdate' => null
+                    ]);
 
-                // Crear Empleado
-                $new_employee = Employee::create([
-                    'id_user' => $new_user->id,
-                    'id_company' => $new_company->id,
-                    'id_role' => Role::where('name', 'Gerente')->first()->id,
-                    'name' => $name,
-                    'lastname' => $name,
-                    'data' => null,
-                    'status' => $status,
-                    'url_photo' => null,
-                    'code' => $this->formatCode($new_company->id, $ruc)
-                ]);
+                    // Crear Empleado
+                    $new_employee = Employee::create([
+                        'id_user' => $new_user->id,
+                        'id_company' => $new_company->id,
+                        'id_role' => Role::where('name', $role)->first()->id,
+                        'name' => $name,
+                        'lastname' => $name,
+                        'data' => null,
+                        'status' => $status,
+                        'url_photo' => null,
+                        'code' => $this->formatCode($new_company->id, $ruc)
+                    ]);
+                }
 
                 error_log('Company created: ' . $new_company->id);
 

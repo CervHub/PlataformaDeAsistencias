@@ -10,7 +10,10 @@
     --orange-cerv: #f2980d;
 }
 
-input {
+
+
+input,
+textarea {
     border: 1px solid lightgray !important;
     border-radius: var(--border-radius-sm) !important;
 }
@@ -79,4 +82,32 @@ table.dataTable {
 
 .btn-info {
     background-color: var(--orange-cerv) !important;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    text-align: center !important;
+}
+
+.fas::before {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.day-button {
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0;
+    line-height: 40px !important;
+    text-align: center;
+    border-radius: 50% !important;
+}
+
+.day-button:hover {
+    background-color: var(--primary-color) !important;
+    color: white !important;
 }

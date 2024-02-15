@@ -31,11 +31,12 @@ class EmployeeModel extends Controller
             $role = $data['role'];
             $code = $this->formatCode($id_company, $doi);
             $position = $data['position'];
+            $email = $data['email'];
 
             $new_employee = Employee::where('code', $code)->first();
 
             if ($new_employee) {
-                return [false, 'Employee already exists'];
+                return [false, 'El empleado ya existe'];
             } else {
                 // Primero validamos que no exista el usuario
                 $new_user = User::where('doi', $data['doi'])->first();
@@ -54,6 +55,7 @@ class EmployeeModel extends Controller
                     'lastname' => $lastname,
                     'url_photo' => null,
                     'id_company' => $id_company,
+                    'email' => $email,
                     'id_schedule' => null,
                     'id_user' => $new_user->id,
                     'id_role' => Role::where('name', $role)->first()->id,

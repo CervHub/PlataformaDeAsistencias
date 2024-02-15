@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\View;
+namespace App\Http\Controllers\View\Gerente;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Employee;
-use Illuminate\Support\Facades\Session;
 use App\Models\Role;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Repository\EmployeeModel;
 
-class AdministradorController extends Controller
+class PersonalController extends Controller
 {
     protected $employeeModel;
 
@@ -17,20 +17,21 @@ class AdministradorController extends Controller
     {
         $this->employeeModel = $employeeModel;
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $role = Role::where('name', 'Administrador')->first();
-        $id_company = Session::get('company_id');
+        $company_id = Session::get('company_id');
 
-        $employees = Employee::where('id_role', $role->id)
-            ->where('id_company', $id_company)
+        $adminRoleId = Role::where('name', 'Gerente')->first()->id; // Reemplaza esto con el id del rol de administrador
+        $employees = Employee::where('id_company', $company_id)
+            ->where('id_role', '!=', $adminRoleId)
             ->get();
-
-        return view('Gerente.Administrador.index', compact('employees'));
+        return view('Gerente.Personal.index', compact('employees'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -74,7 +75,7 @@ class AdministradorController extends Controller
             'doi' => $request->documento_identidad,
             'id_company' => Session::get('company_id'),
             'birthdate' => $request->fecha_nacimiento,
-            'role' => 'Administrador',
+            'role' => 'Empleado',
             'position' => $request->posicion,
             'email' => $request->correo,
         ];
@@ -86,7 +87,6 @@ class AdministradorController extends Controller
             return redirect()->back()->with('warning', $result[1]);
         }
     }
-
     /**
      * Display the specified resource.
      */

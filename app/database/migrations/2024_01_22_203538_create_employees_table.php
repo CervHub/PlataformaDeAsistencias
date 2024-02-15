@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('url_photo')->nullable();
             $table->json('data')->nullable(); // Campo JSON
+            $table->string('position')->nullable();  // Agregar el campo 'position'
+            $table->string('email')->unique()->nullable(); // Agregar el campo 'email'
             $table->string('status')->default('active');
             $table->foreignId('id_company')->nullable()->constrained('companies')->onDelete('set null');
             $table->foreignId('id_schedule')->nullable()->constrained('schedules')->onDelete('set null');

@@ -3,10 +3,10 @@
     data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form class="px-1" action="{{ route('administradores.store') }}" method="POST" id="createForm">
+            <form class="px-1" action="{{ route('personal.store') }}" method="POST" id="createForm">
                 @csrf
                 <div class="modal-header d-flex justify-content-center">
-                    <h5 class="modal-title" id="createModalLabel">Crear Administrador</h5>
+                    <h5 class="modal-title" id="createModalLabel">Crear Personal</h5>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -54,7 +54,7 @@
                     <div class="mb-3">
                         <label for="posicion" class="form-label">Posición</label>
                         <input type="text" class="form-control @error('posicion') is-invalid @enderror"
-                            id="posicion" name="posicion" value="{{ old('posicion') }}">
+                            id="posicion" name="posicion" value="{{ old('posicion') }}" >
                         @error('posicion')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

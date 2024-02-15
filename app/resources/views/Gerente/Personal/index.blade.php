@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <h2 class="main-title">Administrador</h2>
+    <h2 class="main-title">Personal</h2>
     <div class="row mb-3 px-1">
         <div class="col-2">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
@@ -16,10 +16,13 @@
         </div>
     </div>
 
-    @include('Gerente.Administrador.table')
-    @include('Gerente.Administrador.create')
+    {{-- MOstrar tabla empleados --}}
+    @include('Gerente.Personal.table')
+    @include('Gerente.Personal.create')
+    @include('Gerente.Personal.edit')
+    @include('Gerente.Personal.delete')
 @endsection
 
 @section('scripts')
-    @include('Gerente.Administrador.scripts')
+    @include('Gerente.Personal.scripts')
 @endsection

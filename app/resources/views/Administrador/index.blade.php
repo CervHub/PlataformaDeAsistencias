@@ -1,1 +1,0 @@
-@extends('Administrador.main')
