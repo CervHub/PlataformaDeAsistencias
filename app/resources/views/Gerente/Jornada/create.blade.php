@@ -84,9 +84,8 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="horas_receso" class="form-label">Horas de Receso o Almuerzo</label>
-                                <input type="number" class="form-control @error('horas_receso') is-invalid @enderror"
-                                    id="horas_receso" name="horas_receso" min="0" max="24" step="0.25"
-                                    required>
+                                <input type="time" class="form-control @error('horas_receso') is-invalid @enderror"
+                                    id="horas_receso" name="horas_receso" required value="00:00">
                                 @error('horas_receso')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -114,8 +113,7 @@
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                        id="close">Cerrar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="close">Cerrar</button>
                     <button type="button" class="btn btn-warning" id="clear">Limpiar</button>
                     <button type="submit" class="btn btn-primary" id="store">Crear</button>
                 </div>
