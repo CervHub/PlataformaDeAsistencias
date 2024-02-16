@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Repository\CompanyModel;
 use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\AttendancesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('employee/create', [EmployeeController::class, 'store']);
+
+Route::post('attendance/register', [AttendancesController::class, 'store']);
+Route::get('attendance/', [AttendancesController::class, 'index']);

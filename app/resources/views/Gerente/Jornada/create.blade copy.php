@@ -10,7 +10,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="nombre_jornada" class="form-label">Nombre de la Jornada</label>
                                 <input type="text" class="form-control @error('nombre_jornada') is-invalid @enderror"
@@ -25,15 +25,8 @@
                                     $days = ['L' => 'Lunes', 'M' => 'Martes', 'X' => 'Miércoles', 'J' => 'Jueves', 'V' => 'Viernes', 'S' => 'Sábado', 'D' => 'Domingo'];
                                 @endphp
                                 @foreach ($days as $initial => $day)
-                                    <div style="position: relative; height: 100%; margin-right: 10px;">
-                                        <button type="button" class="btn day-button" id="{{ $initial }}Button">
-                                            <i class="fa fa-circle" style="font-size: 2em; color: transparent;"></i>
-                                            <span
-                                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: black;">
-                                                {{ $initial }}
-                                            </span>
-                                        </button>
-                                    </div>
+                                    <button class="btn btn-outline-primary day-button rounded-circle mx-2"
+                                        type="button" id="{{ $initial }}Button">{{ $initial }}</button>
                                 @endforeach
                             </div>
                             <div class="mb-3">
@@ -88,38 +81,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <div class="row mb-3 d-flex flex-column align-items-center">
-                                <label for="horas_trabajo" class="form-label">Horas de Entrada y Salida del Trabajo:
-                                    <i class="fa fa-circle text-success" id="horas_trabajo_color_indicator"></i>
-                                </label>
-                                <label for="horas_receso" class="form-label">Horas de Receso o Almuerzo:
-                                    <i class="fa fa-circle text-success" id="horas_receso_color_indicator"></i>
-                                </label>
-                                <label for="horas_almuerzo" class="form-label">Horas de Almuerzo:
-                                    <i class="fa fa-circle text-success" id="horas_almuerzo_color_indicator"></i>
-                                </label>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="horas_receso" class="form-label">Horas de Receso o Almuerzo</label>
+                                <input type="time" class="form-control @error('horas_receso') is-invalid @enderror"
+                                    id="horas_receso" name="horas_receso" required value="00:00">
+                                @error('horas_receso')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                @error('tipo_jornada')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 @php
                                     $days = ['L' => 'Lunes', 'M' => 'Martes', 'X' => 'Miércoles', 'J' => 'Jueves', 'V' => 'Viernes', 'S' => 'Sábado', 'D' => 'Domingo'];
                                 @endphp
                                 @foreach ($days as $initial => $day)
-                                    <div class="row mt-3">
-                                        <div class="day-container col-md-12" id="day-{{ $initial }}">
-                                            <div class="row">
-                                                <div class="col-md-2 d-flex align-items-center">
-                                                    <label>{{ $day }} </label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="day-range"
-                                                        id="{{ $initial }}Range" />
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <input type="text" class="day-range"
-                                                        id="lunch{{ $initial }}Range" />
-                                                </div>
-                                            </div>
+                                    <div class="day-container row" id="day-{{ $initial }}">
+                                        <div class="col-md-2 d-flex align-items-center">
+                                            <label>{{ $day }} </label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input type="text" class="day-range" id="{{ $initial }}Range" />
                                         </div>
                                     </div>
                                 @endforeach

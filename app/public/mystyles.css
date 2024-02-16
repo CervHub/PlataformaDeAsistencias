@@ -11,11 +11,28 @@
 }
 
 
+.invalid-feedback {
+    color: #dc3545;
+    display: block;
+}
+
+.lunch-slider .irs-bar {
+    background-color: #dc3545;
+}
 
 input,
-textarea {
+textarea,
+select,
+.choices__inner,
+.choices__list .choices__list--dropdown {
     border: 1px solid lightgray !important;
     border-radius: var(--border-radius-sm) !important;
+}
+
+.is-open .choices__list--dropdown,
+.is-open .choices__list[aria-expanded] {
+    border-radius: var(--border-radius-sm) !important;
+    border: 1px solid lightgray !important;
 }
 
 .modal-content {
@@ -28,6 +45,24 @@ input:focus {
 
 form-control:focus {
     box-shadow: none !important;
+}
+
+.lunch-slider .irs-bar,
+.lunch-slider .irs-from,
+.lunch-slider .irs-to,
+.lunch-slider .irs--flat .irs-single,
+.lunch-slider .irs-handle.to.type_last i,
+.lunch-slider .irs-handle.from i {
+    background-color: var(--orange-cerv) !important;
+}
+
+.work-slider .irs-bar,
+.work-slider .irs-from,
+.work-slider .irs-to,
+.work-slider .irs--flat .irs-single,
+.work-slider .irs-handle.to.type_last i,
+.work-slider .irs-handle.from i {
+    background-color: var(--primary-color) !important;
 }
 
 .dt-button {
@@ -44,27 +79,41 @@ form-control:focus {
 }
 
 .dt-button:nth-child(1) {
-    background-color: var(--pastel-green) !important; // Verde pastel
+    background-color: var(--pastel-green) !important;
 }
 
 .dt-button:nth-child(2) {
-    background-color: var(--pastel-blue) !important; // Azul pastel
+    background-color: var(--pastel-blue) !important;
 }
 
 .dt-button:nth-child(3) {
-    background-color: var(--pastel-orange) !important; // Naranja pastel
+    background-color: var(--pastel-orange) !important;
 }
 
 .dt-button:nth-child(4) {
-    background-color: var(--pastel-yellow) !important; // Amarillo pastel
+    background-color: var(--pastel-yellow) !important;
 }
 
 .dt-button:nth-child(5) {
-    background-color: var(--pastel-purple) !important; // Morado pastel
+    background-color: var(--pastel-purple) !important;
 }
 
 .btn-primary {
     background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.btn.day-button {
+    background: none;
+    border: 2px solid var(--pastel-blue) !important;
+}
+
+.btn.day-button:hover span {
+    color: white !important;
+}
+
+.btn-outline-primary.btn-primary span {
+    color: white !important;
 }
 
 .sidebar {

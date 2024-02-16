@@ -17,6 +17,27 @@ class EmployeeModel extends Controller
         return $formattedCompanyId . '-' . $rucNumber;
     }
 
+    public function asociarSchedule($data)
+    {
+        DB::beginTransaction();
+        try {
+            $employee = Employee::find($data['id_employee']);
+
+            if ($employee->id_schedule) {
+                return [false, 'El empleado ya tiene un horario asociado.'];
+            }
+
+            $employee->id_schedule = $data['id_schedule'];
+            $employee->save();
+            DB::commit();
+            return [true, 'Horario asociado'];
+        } catch (\Exception $e) {
+            DB::rollback();
+            error_log('Error asociando horario: ' . $e->getMessage());
+            return [false, $e->getMessage()];
+        }
+    }
+
     public function create($data)
     {
         DB::beginTransaction();

@@ -71,118 +71,108 @@
     $(document).ready(function() {
         // Initialize all sliders in disabled state
         $('.day-range').each(function() {
-            console.log('ID del control deslizante de rango: ' + this.id);
-            let min = 0;
-            let max = 1440;
-            let from = 480;
-            let to = 1110;
-            let skin = "flat";
-            if (this.id.startsWith('lunch')) {
-                min = 480;
-                max = 1110;
-                from = 780;
-                to = 840;
-                $(this).parent().addClass(
-                    'lunch-slider');
-            } else {
-                $(this).parent().addClass(
-                    'work-slider');
-            }
             $(this).ionRangeSlider({
                 type: "double",
                 grid: true,
-                skin: skin,
-                min: min,
-                max: max,
-                from: from,
-                to: to,
+                skin: "round",
+                min: 0,
+                max: 1440,
+                from: 480,
+                to: 1110,
                 step: 15,
                 prettify: function(num) {
                     var m = num % 60;
                     var h = (num - m) / 60;
-                    return h.toString().padStart(2, "0") + ":" + m.toString().padStart(2,
-                        "0");
+                    return h.toString().padStart(2, "0") + ":" + m.toString().padStart(2, "0");
                 },
                 disable: true,
-                // onChange: function(data) {
-                //     // data.input[0] contiene el elemento de entrada
-                //     console.log('Range ID: ' + data.input[0].id);
-                //     console.log('Range selected: ' + data.from_pretty + ' to ' + data
-                //         .to_pretty);
-                //     dataJson.horario[data.input[0].id[0]].from = data.from_pretty;
-                //     dataJson.horario[data.input[0].id[0]].to = data.to_pretty;
-                //     console.log(dataJson);
+                onChange: function(data) {
+                    // data.input[0] contiene el elemento de entrada
+                    console.log('Range ID: ' + data.input[0].id);
+                    console.log('Range selected: ' + data.from_pretty + ' to ' + data.to_pretty);
+                    dataJson.horario[data.input[0].id[0]].from = data.from_pretty;
+                    dataJson.horario[data.input[0].id[0]].to = data.to_pretty;
+                    console.log(dataJson);
 
-                //     // Convertir las cadenas de texto a números antes de hacer la resta
-                //     var from_pretty = convertToHours(data.from_pretty);
-                //     var to_pretty = convertToHours(data.to_pretty);
+                    // Convertir las cadenas de texto a números antes de hacer la resta
+                    var from_pretty = convertToHours(data.from_pretty);
+                    var to_pretty = convertToHours(data.to_pretty);
 
-                //     if (!isNaN(from_pretty) && !isNaN(to_pretty)) {
-                //         var hours = to_pretty - from_pretty;
-                //         console.log(`${(data.input[0].id)[0]}Hours`);
-                //         console.log('Horas: ' + hours);
-                //         var hoursFormatted = formatHours(hours);
-                //         $(`#${(data.input[0].id)[0]}Hours`).val(hoursFormatted);
-                //     } else {
-                //         console.error('Error: Invalid time format');
-                //     }
-                //     var totalHours = calculateTotalHours();
-                //     console.log(totalHours);
-                //     // Función para convertir 'HH:MM' a horas totales
-                //     function convertToHours(time) {
-                //         var parts = time.split(':');
-                //         if (parts.length === 2) {
-                //             var hours = parseInt(parts[0], 10);
-                //             var minutes = parseInt(parts[1], 10);
-                //             if (!isNaN(hours) && !isNaN(minutes)) {
-                //                 return hours + minutes / 60;
-                //             }
-                //         }
-                //         return NaN;
-                //     }
-                //     // Función para convertir horas decimales a formato 'HH:MM'
-                //     function formatHours(decimalHours) {
-                //         var hours = Math.floor(decimalHours);
-                //         var minutes = Math.round((decimalHours - hours) * 60);
-                //         return `${pad(hours)}:${pad(minutes)}`;
-                //     }
+                    if (!isNaN(from_pretty) && !isNaN(to_pretty)) {
+                        var hours = to_pretty - from_pretty;
+                        console.log(`${(data.input[0].id)[0]}Hours`);
+                        console.log('Horas: ' + hours);
+                        var hoursFormatted = formatHours(hours);
+                        $(`#${(data.input[0].id)[0]}Hours`).val(hoursFormatted);
+                    } else {
+                        console.error('Error: Invalid time format');
+                    }
+                    var totalHours = calculateTotalHours();
+                    console.log(totalHours);
+                    // Función para convertir 'HH:MM' a horas totales
+                    function convertToHours(time) {
+                        var parts = time.split(':');
+                        if (parts.length === 2) {
+                            var hours = parseInt(parts[0], 10);
+                            var minutes = parseInt(parts[1], 10);
+                            if (!isNaN(hours) && !isNaN(minutes)) {
+                                return hours + minutes / 60;
+                            }
+                        }
+                        return NaN;
+                    }
+                    // Función para convertir horas decimales a formato 'HH:MM'
+                    function formatHours(decimalHours) {
+                        var hours = Math.floor(decimalHours);
+                        var minutes = Math.round((decimalHours - hours) * 60);
+                        return `${pad(hours)}:${pad(minutes)}`;
+                    }
 
-                //     // Función para añadir un cero a la izquierda si el número es menor que 10
-                //     function pad(number) {
-                //         return number < 10 ? '0' + number : number;
-                //     }
-                // }
+                    // Función para añadir un cero a la izquierda si el número es menor que 10
+                    function pad(number) {
+                        return number < 10 ? '0' + number : number;
+                    }
+                }
             });
         });
+
 
         $('#horas_receso').change(function() {
             calculateTotalLunch();
             calculateTotalHours();
         });
 
-        // Agrega un controlador de eventos de clic a todos los elementos con la clase 'day-button'
         $('.day-button').click(function() {
-            // Obtiene el ID del botón que fue clickeado
             var dayButtonId = $(this).attr('id');
-
-            // Reemplaza 'Button' con 'Range' en el ID para obtener el ID del control deslizante de rango correspondiente
             var dayRangeId = dayButtonId.replace('Button', 'Range');
-
-            // Obtiene las instancias de los controles deslizantes de rango y almuerzo usando los IDs
             var dayRangeSlider = $('#' + dayRangeId).data("ionRangeSlider");
-            var dayLunchSlider = $('#lunch' + dayRangeId).data("ionRangeSlider");
+            console.log(dayButtonId);
+            console.log(dayRangeId);
 
-            // Verifica si los controles deslizantes están deshabilitados
-            var isDisabled = dayRangeSlider.options.disable;
+            if (dayRangeSlider.options.disable) {
+                dayRangeSlider.update({
+                    disable: false
+                });
+                $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+                $(`#${dayButtonId[0]}Hours`).val('10:30');
+                var totalHours = calculateTotalHours();
+                console.log(totalHours);
+                dataJson.horario[dayButtonId[0]].from = '08:00';
+                dataJson.horario[dayButtonId[0]].to = '18:30';
+                console.log(dataJson);
 
-            // Actualiza el estado de los controles deslizantes y el color del botón basado en el estado actual
-            dayRangeSlider.update({
-                disable: !isDisabled
-            });
-            dayLunchSlider.update({
-                disable: !isDisabled
-            });
-            $(this).toggleClass('btn-outline-primary btn-primary');
+            } else {
+                dayRangeSlider.update({
+                    disable: true
+                });
+                $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                $(`#${dayButtonId[0]}Hours`).val('00:00');
+                var totalHours = calculateTotalHours();
+                console.log(totalHours);
+                dataJson.horario[dayButtonId[0]].from = '00:00';
+                dataJson.horario[dayButtonId[0]].to = '00:00';
+                console.log(dataJson);
+            }
         });
 
     });
@@ -245,25 +235,27 @@
     }
 </script>
 @if (session('success'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: '¡Éxito!',
-            text: '{{ session('success') }}',
-            timer: 3000,
-            timerProgressBar: true,
-        });
-    </script>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: '{{ session('
+        success ') }}',
+        timer: 3000,
+        timerProgressBar: true,
+    });
+</script>
 @endif
 
 @if (session('warning'))
-    <script>
-        Swal.fire({
-            icon: 'warning',
-            title: 'Advertencia',
-            text: '{{ session('warning') }}',
-            timer: 3000,
-            timerProgressBar: true,
-        });
-    </script>
+<script>
+    Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: '{{ session('
+        warning ') }}',
+        timer: 3000,
+        timerProgressBar: true,
+    });
+</script>
 @endif

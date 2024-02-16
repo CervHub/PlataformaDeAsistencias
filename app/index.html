@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Incluye el CSS de noUiSlider -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css">
+</head>
+
+<body style="padding: 5%;">
+    <!-- Crea 5 sliders con noUiSlider -->
+    <br><br><br>
+    <div id="values-slider-1"></div>
+    <br><br><br>
+    <div id="values-slider-2"></div>
+    <br><br><br>
+    <div id="values-slider-3"></div>
+    <br><br><br>
+    <div id="values-slider-4"></div>
+    <br><br><br>
+    <div id="values-slider-5"></div>
+
+    <!-- Incluye noUiSlider -->
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
+
+    <!-- Inicializa noUiSlider -->
+    <script>
+        function minutosAHora(minutos) {
+            // Redondea los minutos al entero más cercano
+            minutos = Math.round(minutos);
+
+            // Calcula las horas dividiendo los minutos entre 60
+            var horas = Math.floor(minutos / 60);
+            // Calcula los minutos restantes después de convertir las horas
+            var minutosRestantes = minutos % 60;
+            // Formatea la salida con ceros a la izquierda si es necesario
+            var horaFormateada = horas.toString().padStart(2, '0');
+            var minutosFormateados = minutosRestantes.toString().padStart(2, '0');
+            // Retorna la hora en formato HH:MM
+            return horaFormateada + ':' + minutosFormateados;
+        }
+
+        for (var i = 1; i <= 5; i++) {
+            var valuesSlider = document.getElementById('values-slider-' + i);
+
+            noUiSlider.create(valuesSlider, {
+                start: [480, 780, 840, 1110],
+                // A linear range from 0 to 95 (96 values)
+                range: { min: 0, max: 1439 },
+                // steps of 1
+                step: 1,
+                tooltips: true,
+                pips: {
+                    mode: 'range',
+                    density: 3,
+                    format: {
+                        to: function (value) {
+                            return minutosAHora(value);
+                        },
+                        from: function (value) {
+                            return value;
+                        }
+                    }
+                },
+                connect: [false, true, false, true, false],
+                format: {
+                    to: function (value) {
+                        console.log(minutosAHora(value));
+                        return minutosAHora(value);
+                    },
+                    from: function (value) {
+                        console.log(value);
+                        return value;
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

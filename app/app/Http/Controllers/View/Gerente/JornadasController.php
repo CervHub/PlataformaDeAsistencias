@@ -4,15 +4,24 @@ namespace App\Http\Controllers\View\Gerente;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Repository\SchedulesModel;
+use App\Models\Schedule;
+use Illuminate\Support\Facades\Session;
 
 class JornadasController extends Controller
 {
+    protected $schedulesModel;
+    public function __construct(SchedulesModel $schedulesModel)
+    {
+        $this->schedulesModel = $schedulesModel;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('Gerente.Jornada.index');
+        $schedules = Schedule::where('id_company', Session::get('company_id'))->get();
+        return view('Gerente.Jornada.index', compact('schedules'));
     }
 
     /**
@@ -28,7 +37,23 @@ class JornadasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'name' => $request->nombre_jornada,
+            'json' => $request->datajson,
+            'totalHours' => $request->totalHours,
+            'lunchHours' => $request->lunchHours,
+            'workHours' => $request->workHours,
+            'horas_receso' => $request->horas_receso,
+            'id_company' => Session::get('company_id')
+        ];
+
+        $result = $this->schedulesModel->create($data);
+
+        if ($result[0]) {
+            return redirect()->back()->with('success', 'Jornada creada exitosamente');
+        } else {
+            return redirect()->back()->with('warning', $result[1]);
+        }
     }
 
     /**

@@ -16,6 +16,7 @@
             </button>
         </div>
     </div>
+    @include('Gerente.Jornada.table')
     @include('Gerente.Jornada.create')
 @endsection
 
