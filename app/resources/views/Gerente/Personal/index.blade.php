@@ -8,15 +8,26 @@
 
 @section('content')
     <h2 class="main-title">Personal</h2>
-    <div class="row mb-3 px-1">
+    <div class="row mb-3 px-1 d-flex justify-content-between">
         <div class="col-2">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
                 <i class="fas fa-plus"></i> Crear
             </button>
         </div>
+        <div class="col-2 d-flex justify-content-end">
+            <form action="{{ route('personal.upload') }}" method="post" enctype="multipart/form-data"
+                style="display: inline-block;">
+                @csrf
+                <input type="file" name="excel" accept=".xlsx,.xls" onchange="this.form.submit()"
+                    style="display: none;" id="fileUpload">
+                <label for="fileUpload" class="btn btn-warning">
+                    <i class="fas fa-upload"></i> Subida Masiva
+                </label>
+            </form>
+        </div>
     </div>
 
-    {{-- MOstrar tabla empleados --}}
+    {{-- Mostrar tabla empleados --}}
     @include('Gerente.Personal.table')
     @include('Gerente.Personal.create')
     @include('Gerente.Personal.edit')

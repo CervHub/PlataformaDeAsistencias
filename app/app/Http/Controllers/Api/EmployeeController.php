@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Repository\EmployeeModel;
+use App\Models\Employee;
 
 class EmployeeController extends Controller
 {
@@ -35,7 +36,22 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $employee = Employee::find($id);
+
+        if ($employee) {
+            // Genera los datos que quieres retornar
+            $data = [
+                'id' => $employee->id,
+                'documento_identidad' => $employee->user->doi,
+                'nombres' => $employee->name,
+                'apellidos' => $employee->lastname,
+                'posicion' => $employee->position,
+            ];
+
+            return response()->json($data);
+        }
+
+        return response()->json(['error' => 'Empleado no encontrado'], 404);
     }
 
     /**

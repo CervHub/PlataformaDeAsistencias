@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Attendance;
+use App\Models\Schedule;
 use Carbon\Carbon;
 use DateTimeZone;
 
@@ -89,10 +90,11 @@ class AttendancesController extends Controller
                     } else {
                         $success = false;
                         $message = 'Se registro su hora de Ingreso.';
-
+                        $horario = Schedule::find($employee->id_schedule);
                         $attendance = new Attendance();
                         $attendance->work_entry_time = Carbon::now(new DateTimeZone('America/Lima'));
                         $attendance->id_employee = $employee->id;
+                        $attendance->horario = $horario->data;
                         $attendance->save();
                     }
 

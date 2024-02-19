@@ -69,17 +69,17 @@
         console.log('ID:', id);
     });
 
-    $('.detail-company').click(function() {
+    $('.delete-employee').click(function() {
         var id = $(this).closest('tr').data('id');
         console.log('ID:', id);
 
-        var modal = $('#detailModal');
+        var modal = $('#deleteModal');
         modal.find('.loading').show();
-        modal.find('#detailForm').hide();
+        modal.find('#deleteForm').hide();
         modal.modal('show');
 
-        var client = new ApiClient('/root');
-        client.sendRequest('/company/' + id, 'GET', null, function(error, response) {
+        var client = new ApiClient('/api');
+        client.sendRequest('/employee/show/' + id, 'GET', null, function(error, response) {
             if (error) {
                 console.error('Error:', error);
                 modal.modal('hide');
@@ -88,31 +88,17 @@
                 );
             } else {
                 console.log('Response:', response);
-                // Aquí es donde llenarías los campos del formulario con los datos de la gerencia
-                $('#edit_ruc').val(response.ruc);
-                $('#edit_nombre').val(response.password);
-                $('#edit_descripcion').val(response.name);
-
+                modal.find('#documento_identidad').val(response.documento_identidad);
+                modal.find('#nombres').val(response.nombres);
+                modal.find('#apellidos').val(response.apellidos);
+                modal.find('#posicion').val(response.posicion);
                 modal.find('.loading').hide();
-                modal.find('#detailForm').show();
+                modal.find('#deleteForm').show();
+                // Actualizar la URL con el nuevo ID
+                var url = '{{ route('personal.destroy', ['personal' => ':id']) }}';
+                url = url.replace(':id', response.id);
+                modal.find('#deleteFormPrimary').attr('action', url);
             }
         });
-    });
-
-    $('#copy').click(function() {
-        var ruc = $('#edit_ruc').val();
-        var nombre = $('#edit_nombre').val();
-        var empresa = $('#edit_descripcion').val();
-        var textToCopy = 'Gerencia: ' + empresa + '\nRUC: ' + ruc + '\nContraseña: ' + nombre;
-
-        navigator.clipboard.writeText(textToCopy).then(function() {
-            alert('Detalles copiados al portapapeles.');
-        }, function(error) {
-            console.error('Error al copiar al portapapeles:', error);
-        });
-    });
-    $('.delete-company').click(function() {
-        var id = $(this).closest('tr').data('id');
-        console.log('ID:', id);
     });
 </script>

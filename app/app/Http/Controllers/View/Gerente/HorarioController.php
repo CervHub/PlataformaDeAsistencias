@@ -8,6 +8,7 @@ use App\Models\Employee;
 use Illuminate\Support\Facades\Session;
 use App\Models\Schedule;
 use App\Http\Controllers\Repository\EmployeeModel;
+use App\Models\Attendance;
 
 class HorarioController extends Controller
 {
@@ -21,12 +22,10 @@ class HorarioController extends Controller
      */
     public function index()
     {
-        $id_company = Session::get('company_id');
-        $employees = Employee::where('id_company', $id_company)->get();
-        $employeest = Employee::where('id_company', $id_company)
-            ->whereNotNull('id_schedule')->get();
-        $schedules = Schedule::where('id_company', $id_company)->get();
-        return view('gerente.horarios.index', compact('employees', 'schedules', 'employeest'));
+        $employees = Employee::where('id_company', Session::get('company_id'))->get();
+        $employeeIds = $employees->pluck('id');
+        $attendances = Attendance::whereIn('id_employee', $employeeIds)->orderBy('created_at', 'desc')->get();
+        return view('gerente.horarios.index', compact('employees', 'attendances'));
     }
 
     /**
@@ -96,6 +95,14 @@ class HorarioController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $schedule = Schedule::find($id);
+
+        if ($schedule) {
+            $schedule->status = 'Inactive';
+            $schedule->save();
+            return redirect()->back()->with('success', 'Horario eliminado con éxito');
+        }
+
+        return redirect()->back()->with('warning', 'Horario no encontrado');
     }
 }

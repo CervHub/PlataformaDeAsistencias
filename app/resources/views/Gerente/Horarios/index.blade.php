@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <h2 class="main-title">Asociar Horario </h2>
+    <h2 class="main-title">Registro de Asistencias </h2>
     <div class="row mb-3 px-1">
         <div class="col-2">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
@@ -19,7 +19,7 @@
 
     {{-- MOstrar tabla empleados --}}
     @include('Gerente.Horarios.table')
-    @include('Gerente.Horarios.create')
+    {{-- @include('Gerente.Horarios.create') --}}
 @endsection
 
 @section('scripts')

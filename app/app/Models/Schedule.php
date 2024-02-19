@@ -23,7 +23,6 @@ class Schedule extends Model
 
             $result[$day] = !($from === "00:00" && $to === "00:00");
         }
-
         return $result;
     }
 }

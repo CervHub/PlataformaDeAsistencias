@@ -22,6 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('employee/create', [EmployeeController::class, 'store']);
-
+Route::get('employee/show/{id}', [EmployeeController::class, 'show']);
 Route::post('attendance/register', [AttendancesController::class, 'store']);
 Route::get('attendance/', [AttendancesController::class, 'index']);

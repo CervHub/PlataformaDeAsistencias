@@ -10,6 +10,13 @@
     --orange-cerv: #f2980d;
 }
 
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.text-warning {
+    color: var(--orange-cerv) !important;
+}
 
 .invalid-feedback {
     color: #dc3545;

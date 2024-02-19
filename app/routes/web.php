@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('talleres', TallerController::class);
         Route::resource('administradores', AdministradorController::class);
         Route::resource('personal', PersonalController::class);
+        Route::post('personal/upload', [PersonalController::class, 'upload'])->name('personal.upload');
         Route::resource('permisos', PermisoController::class);
         Route::resource('incidentes', IncidenteController::class);
         Route::resource('reportes', ReporteController::class);

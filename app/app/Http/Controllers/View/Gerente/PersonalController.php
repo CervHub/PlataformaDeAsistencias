@@ -8,6 +8,9 @@ use App\Models\Employee;
 use App\Models\Role;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Repository\EmployeeModel;
+use App\Models\Schedule;
+use App\Imports\EmployeeImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PersonalController extends Controller
 {
@@ -23,13 +26,14 @@ class PersonalController extends Controller
      */
     public function index()
     {
+        $jornadas = Schedule::where('id_company', Session::get('company_id'))->get();
         $company_id = Session::get('company_id');
 
         $adminRoleId = Role::where('name', 'Gerente')->first()->id; // Reemplaza esto con el id del rol de administrador
         $employees = Employee::where('id_company', $company_id)
             ->where('id_role', '!=', $adminRoleId)
             ->get();
-        return view('Gerente.Personal.index', compact('employees'));
+        return view('Gerente.Personal.index', compact('employees', 'jornadas'));
     }
 
     /**
@@ -37,9 +41,18 @@ class PersonalController extends Controller
      */
     public function create()
     {
-        //
     }
 
+    public function upload(Request $request)
+    {
+        try {
+            $employeeModel = new EmployeeModel;
+            Excel::import(new EmployeeImport($employeeModel), $request->file('excel'));
+            return redirect()->back()->with('success', 'Archivo importado con éxito');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('warning', 'Hubo un error durante la importación: ' . $e->getMessage());
+        }
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -63,7 +76,7 @@ class PersonalController extends Controller
             'correo' => 'required|email|unique:employees,email',
             'fecha_nacimiento' => 'required|date',
             'posicion' => 'required',
-            'documento_identidad' => 'required',
+            'documento_identidad' => 'required'
         ], $messages);
 
         if (!$validatedData) {
@@ -78,6 +91,7 @@ class PersonalController extends Controller
             'role' => 'Empleado',
             'position' => $request->posicion,
             'email' => $request->correo,
+            'id_schedule' => $request->jornada
         ];
         $result = $this->employeeModel->create($data);
 
@@ -92,7 +106,7 @@ class PersonalController extends Controller
      */
     public function show(string $id)
     {
-        //
+        dd($id);
     }
 
     /**
@@ -116,6 +130,12 @@ class PersonalController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $employee = Employee::find($id);
+        if ($employee) {
+            $employee->delete();
+            return redirect()->back()->with('success', 'Empleado eliminado con éxito');
+        }
+
+        return redirect()->back()->with('warning', 'Empleado no encontrado');
     }
 }

@@ -29,10 +29,10 @@
                 <a href="{{ route('talleres.index') }}" id="taller"><span class="icon office"
                         aria-hidden="true"></span>Talleres</a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{ route('administradores.index') }}" id="administrador"><span class="icon access"
                         aria-hidden="true"></span>Administradores</a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{ route('personal.index') }}" id="personal"><span class="icon working"
                         aria-hidden="true"></span>Personal</a>
@@ -60,7 +60,7 @@
                         aria-hidden="true"></span>Horario</a>
             </li>
             <li>
-                <a href="{{ route('jornadas.index') }}" id="jornada"><span class="icon schedule"
+                <a href="{{ route('jornadas.index') }}" id="jornadas"><span class="icon schedule"
                         aria-hidden="true"></span>Jornadas</a>
             </li>
         </ul>

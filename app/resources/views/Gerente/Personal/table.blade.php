@@ -22,9 +22,12 @@
                         <button class="btn btn-primary edit-employee">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="btn btn-danger delete-employee">
+                        <button class="btn btn-danger delete-employee" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            data-id="{{ $employee->id }}">
                             <i class="fas fa-trash"></i>
                         </button>
+
+                     
                     </td>
                 </tr>
             @endforeach

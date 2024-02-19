@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table id="example" class="display nowrap employee-table">
+    <table id="example" class="display nowrap attendace-table">
         <thead>
             <tr>
                 <th>Nº</th>
@@ -11,18 +11,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($employeest as $employee)
-                <tr data-id="{{ $employee->id }}">
+            @foreach ($attendances as $attendace)
+                <tr data-id="{{ $attendace->id }}">
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $employee->name }}</td>
-                    <td>{{ $employee->lastname }}</td>
-                    <td>{{ $employee->user->doi }}</td>
-                    <td>{{ $employee->email }}</td>
+                    <td>{{ $attendace->employee->name }}</td>
+                    <td>{{ $attendace->lastname }}</td>
+                    <td>{{ $attendace->user }}</td>
+                    <td>{{ $attendace->email }}</td>
                     <td>
-                        <button class="btn btn-primary edit-employee">
+                        <button class="btn btn-primary edit-attendace">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="btn btn-danger delete-employee">
+                        <button class="btn btn-danger delete-attendace">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>

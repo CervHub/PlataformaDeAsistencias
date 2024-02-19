@@ -53,9 +53,9 @@ class EmployeeModel extends Controller
             $code = $this->formatCode($id_company, $doi);
             $position = $data['position'];
             $email = $data['email'];
+            $id_schedule = isset($data['id_schedule']) && is_numeric($data['id_schedule']) ? $data['id_schedule'] : null;
 
             $new_employee = Employee::where('code', $code)->first();
-
             if ($new_employee) {
                 return [false, 'El empleado ya existe'];
             } else {
@@ -70,6 +70,7 @@ class EmployeeModel extends Controller
                         'status' => $status
                     ]);
                 }
+
                 $new_employee = Employee::create([
                     'code' => $this->formatCode($id_company, $doi),
                     'name' => $name,
@@ -77,22 +78,21 @@ class EmployeeModel extends Controller
                     'url_photo' => null,
                     'id_company' => $id_company,
                     'email' => $email,
-                    'id_schedule' => null,
+                    'id_schedule' => $id_schedule,
                     'id_user' => $new_user->id,
                     'id_role' => Role::where('name', $role)->first()->id,
                     'status' => $status,
                     'position' => $position
                 ]);
-
                 DB::commit();
 
-                return [true, 'Employee created'];
+                return [true, 'Employee created', $new_employee];
             }
         } catch (\Exception $e) {
             DB::rollback();
 
             error_log('Error creating company: ' . $e->getMessage());
-            return [false, $e->getMessage()];
+            return [false, $e->getMessage(), null];
         }
     }
 }
